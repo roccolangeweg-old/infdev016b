@@ -21,6 +21,7 @@ from .views import index
 urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^login/$', auth_views.login, name='login'),
+    url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^register/$', auth_views.register, name='register'),
     url(r'^hangman/', include('hangman.urls')),
     url(r'^admin/', admin.site.urls),
