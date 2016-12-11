@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block base %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="login-wrapper col-sm-12 col-md-4 col-lg-4">
+                <div class="content-box">
+                    <div class="login-logo"></div>
+                    <div class="row">
+                        <div class="login-content col-md-12 col-sm-6 col-lg-10 col-sm-offset-3 col-md-offset-0 col-lg-offset-1">
+                            {% if messages %}
+                                <div class="messages">
+                                    {% for message in messages %}
+                                        <div class="alert alert-{{ message.tags }} alert-dismissable text-center">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            {{ message }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% block content %}{% endblock %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="login-banner col-sm-6 col-md-8 col-lg-8 hidden-xs hidden-sm"></div>
+        </div>
+    </div>
+
+{% endblock %}

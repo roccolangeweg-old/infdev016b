@@ -1,0 +1,29 @@
+{% extends 'auth_base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="col-md-12">
+        <h2>Log in</h2>
+        <p class="login-message">
+            Please fill in the below form to start playing.
+        </p>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {% render_field field class+='form-control input-lg' %}
+                    <div class="help-block">{{ field.errors }}</div>
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary btn-block btn-lg">Log in</button>
+        </form>
+        <p class="text-center"><a href="{% url 'register' %}">Create an account?</a></p>
+        <p class="help-block">
+            This project is for educational purposes only and will be taken down as soon as the examination has been done.
+            If you are the legal rights owner to any displayed content, please let us know and we will remove this immediately.
+            Thank you.
+        </p>
+    </div>
+
+{% endblock %}

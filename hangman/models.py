@@ -1,9 +1,9 @@
 from django.db import models
+from django.conf import settings
 
 
-class Users(models.Model):
-    username = models.CharField(max_length=50)
-    password = models.CharField(max_length=20)
+class UserStatistics(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     wins = models.IntegerField(default=0)
     forfeits = models.IntegerField(default=0)
     losses = models.IntegerField(default=0)

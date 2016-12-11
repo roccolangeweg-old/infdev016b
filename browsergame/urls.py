@@ -15,8 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from account import views as auth_views
+from .views import index
 
 urlpatterns = [
+    url(r'^$', index, name='index'),
+    url(r'^login/$', auth_views.login, name='login'),
+    url(r'^register/$', auth_views.register, name='register'),
     url(r'^hangman/', include('hangman.urls')),
     url(r'^admin/', admin.site.urls),
 ]

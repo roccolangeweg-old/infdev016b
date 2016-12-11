@@ -1,2 +1,1 @@
 Django==1.10.4
-django-jenkins==0.110.0
