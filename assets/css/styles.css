@@ -50,3 +50,17 @@ label {
     list-style: none;
     color:red;
 }
+
+body.app {
+    background: url('../img/app-background.jpg') no-repeat;
+    background-size: cover;
+    min-height:100%;
+}
+
+.navbar-primary {
+    background:#fff;
+}
+
+.container {
+    background:#fff !important;
+}
