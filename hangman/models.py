@@ -34,6 +34,11 @@ class Difficulty(models.Model):
     def __str__(self):
         return '{} - {} tries ({}x multiplier)'.format(self.label, self.amount_of_tries, self.multiplier)
 
+# Letters in the alphabet supported as answers
+class Letter(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    value = models.CharField(max_length=1)
+
 
 # Game is the current state of an active game
 class Game(models.Model):
@@ -42,3 +47,17 @@ class Game(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     difficulty = models.ForeignKey(Difficulty)
     completed = models.BooleanField(default=False)
+    failed_tries = models.IntegerField()
+    letters = models.ManyToManyField(Letter)
+
+    def tries_left(self):
+        return self.difficulty.amount_of_tries - self.failed_tries
+
+    def add_failed_try(self):
+        self.failed_tries += 1
+        if not self.tries_left():
+            self.completed = True
+
+    def get_letters(self):
+        return [ l.value for l in self.letters.all() ]
+

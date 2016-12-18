@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse
-from .forms import GameCreateForm
+from .forms import GameCreateForm, GameMoveForm
 from .models import Game, UserStatistics
 from django.http import Http404
 
@@ -35,22 +35,17 @@ def play(request, id):
     except Game.DoesNotExist:
         return Http404()
 
-    tries = str(game.difficulty.amount_of_tries)
 
-    hangman = ""
+    if request.POST:
+        form = GameMoveForm(request.POST, instance=game)
+        if form.is_valid():
+            form.save()
 
-    guesslist = ["a", "b", "c", "d"]
-
-    for letter in game.word.word.lower():
-        if letter in guesslist:
-            hangman += letter + ' '
-        else:
-            hangman += '_ '
+    form = GameMoveForm(instance=game)
 
     context = {
         'game': game,
-        'hangman': hangman,
-        'tries': tries
+        'form': form,
     }
 
     return render(request, template_name='hangman/play.html', context=context)

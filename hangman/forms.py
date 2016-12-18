@@ -1,5 +1,10 @@
 from django import forms
-from .models import Game, Word
+from .models import Game, Word, Letter
+import string
+
+
+def get_alphabet_list():
+    return list(string.ascii_lowercase)
 
 
 class GameCreateForm(forms.ModelForm):
@@ -20,5 +25,35 @@ class GameCreateForm(forms.ModelForm):
             game.save()
 
         return game
+
+
+class GameMoveForm(forms.ModelForm):
+
+    letter = forms.ChoiceField(choices=get_alphabet_list())
+
+    def __init__(self, *args, **kwargs):
+        super(GameMoveForm, self).__init__(*args, **kwargs)
+        letter_history = [ l.value for l in self.instance.letters.all() ]
+        self.fields['letter'].choices = list([(l,l) for l in self.fields['letter'].choices if l not in letter_history])
+
+    class Meta:
+        model = Game
+        fields = ('letter',)
+
+    def save(self, commit=True):
+        game = super(GameMoveForm, self).save(commit=False)
+        letter = Letter.objects.get(value=self.cleaned_data['letter'])
+
+        game.letters.add(letter)
+
+        if letter.value not in game.word.word:
+            game.add_failed_try()
+
+        if commit:
+            game.save()
+
+        return game
+
+
 
 

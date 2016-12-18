@@ -1,11 +1,27 @@
 {% extends 'app_base.html' %}
+{% load widget_tweaks %}
 
 {% block content %}
     <div class="col-md-12">
-    <h3>Hangman</h3>
-    <p class="help-block">{{ game.difficulty }}</p>
-        Triest left: {{ tries }}
-        <br>
-        {{ hangman }}
+        <h3>Hangman</h3>
+        <p class="help-block">{{ game.difficulty }}</p>
+        Tries left: {{ game.tries_left }}
+        <div class="jumbotron">
+            <h2>
+                {% for letter in game.word.word|lower %}
+                    <span>{% if letter in game.get_letters %}{{ letter }}{% else %}_{% endif %}</span>
+                {% endfor %}
+            </h2>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {% render_field field class+='form-control input-lg' %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn-primary btn-lg">Guess letter</button>
+        </form>
     </div>
 {% endblock %}
