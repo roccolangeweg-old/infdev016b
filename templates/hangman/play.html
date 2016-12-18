@@ -3,7 +3,9 @@
 {% block content %}
     <div class="col-md-12">
     <h3>Hangman</h3>
-    <p class="help-block">Welcome!</p>
-
+    <p class="help-block">{{ game.difficulty }}</p>
+        Triest left: {{ tries }}
+        <br>
+        {{ hangman }}
     </div>
 {% endblock %}

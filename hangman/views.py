@@ -35,8 +35,22 @@ def play(request, id):
     except Game.DoesNotExist:
         return Http404()
 
+    tries = str(game.difficulty.amount_of_tries)
+
+    hangman = ""
+
+    guesslist = ["a", "b", "c", "d"]
+
+    for letter in game.word.word.lower():
+        if letter in guesslist:
+            hangman += letter + ' '
+        else:
+            hangman += '_ '
+
     context = {
-        'game': game
+        'game': game,
+        'hangman': hangman,
+        'tries': tries
     }
 
     return render(request, template_name='hangman/play.html', context=context)
