@@ -49,7 +49,7 @@ def score(request):
         'stats': stats
     }
 
-    return render(request, template_name='hangman/stats.html', context=context)
+    return render(request, template_name='hangman/score.html', context=context)
 
 
 
