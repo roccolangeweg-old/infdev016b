@@ -6,7 +6,7 @@ from django.http import Http404
 
 def index(request):
     try:
-        game = Game.objects.get(user=request.user)
+        game = Game.objects.get(user=request.user, completed=False)
     except Game.DoesNotExist:
         return redirect(reverse('hangman:create'))
 
@@ -31,9 +31,9 @@ def create(request):
 
 def play(request, id):
     try:
-        game = Game.objects.get(pk=id, user=request.user)
+        game = Game.objects.get(pk=id, user=request.user, completed=False)
     except Game.DoesNotExist:
-        return Http404()
+        return redirect(reverse('hangman:index'))
 
 
     if request.POST:

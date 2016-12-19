@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from django.core.exceptions import ValidationError
+from django.contrib import messages
 import uuid
 
 
@@ -34,10 +34,12 @@ class Difficulty(models.Model):
     def __str__(self):
         return '{} - {} tries ({}x multiplier)'.format(self.label, self.amount_of_tries, self.multiplier)
 
+
 # Letters in the alphabet supported as answers
 class Letter(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     value = models.CharField(max_length=1)
+    points = models.IntegerField(default=100)
 
 
 # Game is the current state of an active game
@@ -47,8 +49,9 @@ class Game(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     difficulty = models.ForeignKey(Difficulty)
     completed = models.BooleanField(default=False)
-    failed_tries = models.IntegerField()
+    failed_tries = models.IntegerField(default=0)
     letters = models.ManyToManyField(Letter)
+    score = models.IntegerField(default=0)
 
     def tries_left(self):
         return self.difficulty.amount_of_tries - self.failed_tries
@@ -59,5 +62,19 @@ class Game(models.Model):
             self.completed = True
 
     def get_letters(self):
-        return [ l.value for l in self.letters.all() ]
+        return [l.value for l in self.letters.all()]
+
+    def add_letter(self, letter):
+        self.letters.add(letter)
+
+        if letter.value in self.word.word:
+            self.score += letter.points * self.difficulty.multiplier
+            if self.solved():
+                pass
+        else:
+            self.add_failed_try()
+
+    def solved(self):
+        self.completed = not len([l for l in self.word.word if l not in self.get_letters()]) > 1
+        return self.completed
 

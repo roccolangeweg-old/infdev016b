@@ -42,12 +42,9 @@ class GameMoveForm(forms.ModelForm):
 
     def save(self, commit=True):
         game = super(GameMoveForm, self).save(commit=False)
+
         letter = Letter.objects.get(value=self.cleaned_data['letter'])
-
-        game.letters.add(letter)
-
-        if letter.value not in game.word.word:
-            game.add_failed_try()
+        game.add_letter(letter)
 
         if commit:
             game.save()
