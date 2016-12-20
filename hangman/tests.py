@@ -7,4 +7,4 @@ class AnimalTestCase(TestCase):
         something = 1
 
     def test(self):
-        self.assertEqual(1 + 1, 23)
+        self.assertEqual(1 + 1, 2)
