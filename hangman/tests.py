@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 
-class AnimalTestCase(TestCase):
+class HangmanTestCase(TestCase):
     # TODO: Make a setup.
     def setUp(self):
         something = 1
