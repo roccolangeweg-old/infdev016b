@@ -33,8 +33,8 @@ class GameMoveForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(GameMoveForm, self).__init__(*args, **kwargs)
-        letter_history = [ l.value for l in self.instance.letters.all() ]
-        self.fields['letter'].choices = list([(l,l) for l in self.fields['letter'].choices if l not in letter_history])
+        letter_history = [l.value for l in self.instance.letters.all() ]
+        self.fields['letter'].choices = list([(l, l) for l in self.fields['letter'].choices if l not in letter_history])
 
     class Meta:
         model = Game

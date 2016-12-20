@@ -10,7 +10,7 @@ def index(request):
     except Game.DoesNotExist:
         return redirect(reverse('hangman:create'))
 
-    return redirect(reverse('hangman:play', kwargs={'id': game.id }))
+    return redirect(reverse('hangman:play', kwargs={'id': game.id}))
 
 
 def create(request):
@@ -34,7 +34,6 @@ def play(request, id):
         game = Game.objects.get(pk=id, user=request.user, completed=False)
     except Game.DoesNotExist:
         return redirect(reverse('hangman:index'))
-
 
     if request.POST:
         form = GameMoveForm(request.POST, instance=game)
