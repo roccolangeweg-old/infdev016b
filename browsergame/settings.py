@@ -25,7 +25,7 @@ SECRET_KEY = ')kv(^&mg^b*!b$jxj@3v6x#7lf3!ugmfnpij+%vl0si#ror@np'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['infdev016b.roccolangeweg.nl']
 
 
 # Application definition
@@ -133,6 +133,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'assets')
 ]
 
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 LOGIN_URL = '/login/'
 
