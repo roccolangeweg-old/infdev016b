@@ -3,15 +3,6 @@ from django.conf import settings
 from django.contrib import messages
 import uuid
 
-
-# Statistics for a user in this game
-class UserStatistics(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    wins = models.IntegerField(default=0)
-    forfeits = models.IntegerField(default=0)
-    losses = models.IntegerField(default=0)
-
-
 # List of words to pick from
 class Word(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -80,4 +71,7 @@ class Game(models.Model):
 
     def has_won(self):
         return self.completed and self.failed_tries < self.difficulty.amount_of_tries
+
+    def has_lost(self):
+        return self.completed and self.failed_tries == self.difficulty.amount_of_tries
 

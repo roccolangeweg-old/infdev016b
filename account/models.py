@@ -14,9 +14,10 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ('username',)
 
     def total_score(self):
-        games = Game.objects.filter(user=self).all()
-        score = 0
-        for g in games:
-            if g.has_won():
-                score += g.score
-        return score
+        return sum([g.score for g in self.game_set.all() if g.has_won()])
+
+    def hangman_wins(self):
+        return [g for g in self.game_set.all() if g.has_won()]
+
+    def hangman_losses(self):
+        return [g for g in self.game_set.all() if g.has_lost()]

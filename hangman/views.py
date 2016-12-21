@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, reverse
 from .forms import GameCreateForm, GameMoveForm
-from .models import Game, UserStatistics
+from .models import Game
 from account.models import User
 from django.http import Http404
 
@@ -55,7 +55,7 @@ def score(request):
     users = User.objects.all()
     stats = []
     for u in users:
-        user = [u.username, u.total_score()]
+        user = [u.username, u.total_score(), len(u.hangman_wins()), len(u.hangman_losses())]
         stats.append(user)
 
     sorted_by_score = sorted(stats, key=lambda tup: tup[1], reverse=True)
