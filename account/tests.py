@@ -1,6 +1,7 @@
 from django.test import TestCase
 from .models import User
 from django.test import Client
+from django.contrib.auth import login as auth_login, logout as auth_logout
 
 class AccountTestCase(TestCase):
     # TODO: Make a setup.
@@ -13,13 +14,16 @@ class AccountTestCase(TestCase):
         self.assertIsInstance(user, User)
 
     def test_login(self):
-        user = User.objects.get(username="test")
         c = Client()
         response = c.post('/login/', {'username': 'test@test.test', 'password': 'temp1234'})
         self.assertRedirects(response, '/')
 
     def test_wrong_login(self):
-        user = User.objects.get(username="test")
         c = Client()
         response = c.post('/login/', {'username': 'banaan', 'password': 'appel'})
         self.assertIs(response.status_code, 200)
+
+    def test_logout(self):
+        c = Client()
+        response = c.post('/logout/')
+        self.assertRedirects(response, '/login/')
