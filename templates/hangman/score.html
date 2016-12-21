@@ -4,6 +4,12 @@
     <div class="col-md-12">
     <h3>Score</h3>
     <p class="help-block">Welcome!</p>
-
+        {% for stat in stats %}
+           <li>
+           {%  for value in stat %}
+               {{ value }}
+           {%  endfor %}
+           </li>
+        {% endfor %}
     </div>
 {% endblock %}

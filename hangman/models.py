@@ -78,3 +78,6 @@ class Game(models.Model):
         self.completed = not len([l for l in self.word.word if l not in self.get_letters()]) > 1
         return self.completed
 
+    def has_won(self):
+        return self.completed and self.failed_tries < self.difficulty.amount_of_tries
+

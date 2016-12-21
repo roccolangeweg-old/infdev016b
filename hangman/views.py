@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from .forms import GameCreateForm, GameMoveForm
 from .models import Game, UserStatistics
+from account.models import User
 from django.http import Http404
 
 
@@ -51,10 +52,16 @@ def play(request, id):
 
 
 def score(request):
-    stats = UserStatistics.objects.all().order_by('-wins')
+    users = User.objects.all()
+    stats = []
+    for u in users:
+        user = [u.username, u.total_score()]
+        stats.append(user)
+
+    sorted_by_score = sorted(stats, key=lambda tup: tup[1], reverse=True)
 
     context = {
-        'stats': stats
+        'stats': sorted_by_score
     }
 
     return render(request, template_name='hangman/score.html', context=context)

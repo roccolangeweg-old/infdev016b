@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext_lazy as _
+from hangman.models import Game
 import uuid
 
 
@@ -11,3 +12,11 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ('username',)
+
+    def total_score(self):
+        games = Game.objects.filter(user=self).all()
+        score = 0
+        for g in games:
+            if g.has_won():
+                score += g.score
+        return score
