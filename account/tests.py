@@ -1,10 +1,9 @@
 from django.test import TestCase
 from .models import User
 from django.test import Client
-from django.contrib.auth import login as auth_login, logout as auth_logout
+
 
 class AccountTestCase(TestCase):
-    # TODO: Make a setup.
     def setUp(self):
         c = Client()
         response = c.post('/register/', {'username': 'test', 'email': 'test@test.test', 'password1': 'temp1234', 'password2': 'temp1234'})
@@ -25,5 +24,6 @@ class AccountTestCase(TestCase):
 
     def test_logout(self):
         c = Client()
+        response = c.post('/login/', {'username': 'test@test.test', 'password': 'temp1234'})
         response = c.post('/logout/')
         self.assertRedirects(response, '/login/')
