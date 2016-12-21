@@ -6,7 +6,7 @@ from django.test import Client
 class AccountTestCase(TestCase):
     def setUp(self):
         c = Client()
-        response = c.post('/register/', {'username': 'test', 'email': 'test@test.test', 'password1': 'temp1234', 'password2': 'temp1234'})
+        c.post('/register/', {'username': 'test', 'email': 'test@test.test', 'password1': 'temp1234', 'password2': 'temp1234'})
 
     def test_if_user_exists(self):
         user = User.objects.get(username="test")
