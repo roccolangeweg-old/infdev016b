@@ -100,15 +100,15 @@ class HangmanTestCase(TestCase):
         self.assertTrue(game.completed)
 
     def test_lose_game(self):
-         c = Client()
-         c.post('/login/', {'username': 'test@test.test', 'password': 'temp1234'})
-         difficulty = Difficulty.objects.get(label="normal")
-         user = User.objects.get(username="test")
-         c.post('/hangman/create/', {'difficulty': difficulty.id})
-         game = Game.objects.get(user=user)
-         lettervalue = "a"
-         c.post('/hangman/play/' + str(game.id) + "/", {'letter': lettervalue})
-         lettervalue = "b"
-         c.post('/hangman/play/' + str(game.id) + "/", {'letter': lettervalue})
-         game = Game.objects.get(user=user)
-         self.assertTrue(game.completed)
+        c = Client()
+        c.post('/login/', {'username': 'test@test.test', 'password': 'temp1234'})
+        difficulty = Difficulty.objects.get(label="normal")
+        user = User.objects.get(username="test")
+        c.post('/hangman/create/', {'difficulty': difficulty.id})
+        game = Game.objects.get(user=user)
+        lettervalue = "a"
+        c.post('/hangman/play/' + str(game.id) + "/", {'letter': lettervalue})
+        lettervalue = "b"
+        c.post('/hangman/play/' + str(game.id) + "/", {'letter': lettervalue})
+        game = Game.objects.get(user=user)
+        self.assertTrue(game.completed)
