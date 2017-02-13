@@ -4,7 +4,6 @@ from .models import Game
 from .models import Difficulty
 from .models import Word
 from .models import Letter
-from .models import UserStatistics
 from django.test import Client
 
 
